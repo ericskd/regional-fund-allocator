@@ -41,8 +41,6 @@ public class Main {
         runBacktest(data);
     }
 
-    // ---------- Stage 1: compare allocation rules ----------
-
     private static void runComparison(List<RegionData> regions) {
         AllocationStrategy olympiad = olympiadModel();
         List<AllocationStrategy> strategies = List.of(
@@ -87,15 +85,15 @@ public class Main {
         }
     }
 
-    // ---------- Stage 2: sensitivity sweeps ----------
+
 
     private static void runSensitivity(List<RegionData> regions) throws IOException {
-        // Lever 1: move the blend weight from 0 (all employment) to 1 (all value added)
+
         List<SweepPoint> weightSweep = SensitivitySweep.run(regions,
                 w -> new BlendedStrategy(Metric.VALUE_ADDED, Metric.EMPLOYED, w),
                 0.0, 1.0, 10);
 
-        // Lever 2: keep the Olympiad 50/50 blend but raise the minimum floor per region
+
         AllocationStrategy olympiad = olympiadModel();
         List<SweepPoint> floorSweep = SensitivitySweep.run(regions,
                 f -> new FloorStrategy(olympiad, f),
@@ -125,11 +123,11 @@ public class Main {
         }
     }
 
-    // ---------- Stage 3: Monte Carlo on data uncertainty ----------
 
-    private static final double SIGMA = 0.05;        // assumed 5% measurement error
+
+    private static final double SIGMA = 0.05;        
     private static final int SIMULATIONS = 10_000;
-    private static final long SEED = 42;             // fixed so every run gives identical results
+    private static final long SEED = 42;             
 
     private static void runMonteCarlo(List<RegionData> regions) throws IOException {
         MonteCarloSimulator simulator = new MonteCarloSimulator(SIGMA, SIMULATIONS, SEED);
@@ -149,7 +147,6 @@ public class Main {
         CsvWriter.writeMonteCarlo(RESULTS_DIR.resolve("monte_carlo_olympiad.csv"), stats);
     }
 
-    // ---------- Stage 4: backtest against what actually happened ----------
 
     private static final int PERMUTATIONS = 10_000;
 
@@ -186,7 +183,7 @@ public class Main {
             CsvWriter.writeBacktest(RESULTS_DIR.resolve(file), backtester.description(), results);
         }
 
-        // Why we skip 2022 as a formation year: the guard below catches a real problem in the data
+    
         try {
             new Backtester(data, 2022, 2023, Metric.VALUE_ADDED);
         } catch (IllegalArgumentException e) {
@@ -195,7 +192,7 @@ public class Main {
         }
     }
 
-    /** The Olympiad team's model: 50% value added share, 50% employment share. */
+ 
     private static AllocationStrategy olympiadModel() {
         return new BlendedStrategy(Metric.VALUE_ADDED, Metric.EMPLOYED, 0.5);
     }

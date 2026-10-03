@@ -1,8 +1,6 @@
 package allocator.analysis;
 
 /**
- * How one strategy would have done if applied in the formation year.
- *
  * @param strategyName   the rule being tested
  * @param weightedGrowth budget-weighted growth of the regions it funded (sum of weight_i x growth_i)
  * @param excessGrowth   weightedGrowth minus an equal split's growth (the benchmark)

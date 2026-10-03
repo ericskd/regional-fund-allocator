@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Measures how sensitive an allocation is to errors in the input data.
+ * measures how sensitive an allocation is to errors in the input data.
  *
  * ELSTAT's figures are estimates (large firms are surveyed, the rest is extrapolated),
  * so we treat each region's value added, turnover and employment as
@@ -47,7 +47,7 @@ public final class MonteCarloSimulator {
         Random random = new Random(seed);
         int n = regions.size();
 
-        // Baseline: the allocation with the official data, and each region's rank in it
+        // baseline: the allocation with the official data, and each region's rank in it
         Allocation baseline = Allocation.run(strategy, regions, budget);
         Map<String, Integer> baselineRanks = ranks(baseline, regions);
 
@@ -89,7 +89,7 @@ public final class MonteCarloSimulator {
         return stats;
     }
 
-    /** One noisy copy of a region: each figure multiplied by (1 + sigma x Z). */
+
     private RegionData perturb(RegionData r, Random random) {
         return new RegionData(
                 r.region(),
@@ -101,12 +101,12 @@ public final class MonteCarloSimulator {
     }
 
     private double noise(Random random) {
-        // At sigma = 5%, a negative factor needs Z below -20: effectively impossible,
+        // at sigma = 5%, a negative factor needs Z below -20: effectively impossible,
         // but Math.max keeps the data valid even if someone sets sigma much higher.
         return Math.max(0.0, 1 + sigma * random.nextGaussian());
     }
 
-    /** Rank of every region in an allocation, 1 = largest amount. */
+    /** rank of every region in an allocation, 1 = largest amount. */
     private static Map<String, Integer> ranks(Allocation a, List<RegionData> regions) {
         List<String> names = new ArrayList<>();
         for (RegionData r : regions) {
@@ -129,7 +129,7 @@ public final class MonteCarloSimulator {
         return sum / values.length;
     }
 
-    /** Nearest-rank percentile on an already-sorted array, e.g. p = 0.05 for the 5th percentile. */
+    /** nearest-rank percentile on an already-sorted array, e.g. p = 0.05 for the 5th percentile. */
     private static double percentile(double[] sorted, double p) {
         int index = (int) Math.round(p * (sorted.length - 1));
         return sorted[index];

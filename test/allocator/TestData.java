@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-/** Small hand-made regions for unit tests, plus access to the real ELSTAT file. */
 public final class TestData {
 
     private TestData() {
@@ -18,7 +17,7 @@ public final class TestData {
         return new RegionData(name, 2023, 10, 100.0, valueAdded, employed);
     }
 
-    /** Three regions with easy numbers: value added 50/30/20, employment 20/30/50. */
+    /** three regions with easy numbers: value added 50/30/20, employment 20/30/50. */
     public static List<RegionData> threeRegions() {
         return List.of(
                 region("A", 50, 20),

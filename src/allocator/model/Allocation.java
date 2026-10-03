@@ -35,7 +35,7 @@ public final class Allocation {
         this.weights = Collections.unmodifiableMap(weights);
     }
 
-    /** Runs a strategy on a set of regions and checks the output is a valid allocation. */
+    /** runs a strategy on a set of regions and checks the output is a valid allocation. */
     public static Allocation run(AllocationStrategy strategy, List<RegionData> regions, double budget) {
         if (budget <= 0) {
             throw new IllegalArgumentException("Budget must be positive");

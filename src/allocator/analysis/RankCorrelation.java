@@ -14,7 +14,7 @@ public final class RankCorrelation {
     private RankCorrelation() {
     }
 
-    /** Ranks from 1 (smallest) to n (largest); tied values share the average of their ranks. */
+    /** ranks from 1 (smallest) to n (largest); tied values share the average of their ranks. */
     public static double[] ranks(double[] values) {
         int n = values.length;
         Integer[] order = new Integer[n];
@@ -65,8 +65,8 @@ public final class RankCorrelation {
     }
 
     /**
-     * How often would pure chance produce a correlation at least this strong?
-     * Shuffle y randomly many times, recompute Spearman each time, and count
+     * how often would pure chance produce a correlation at least this strong?
+     * shuffle y randomly many times, recompute Spearman each time, and count
      * how often |shuffled| >= |observed|. A small answer means the result is unlikely to be luck.
      */
     public static double permutationPValue(double[] x, double[] y, int trials, long seed) {

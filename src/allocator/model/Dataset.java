@@ -5,16 +5,16 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-/** All regions across all years, with simple ways to slice them. */
+/** all regions across all years, with simple ways to slice them. */
 public final class Dataset {
 
     private final List<RegionData> rows;
 
     public Dataset(List<RegionData> rows) {
-        this.rows = List.copyOf(rows);   // defensive, unmodifiable copy
+        this.rows = List.copyOf(rows);  
     }
 
-    /** Every region's data for one year. */
+    /** every region's data for one year. */
     public List<RegionData> forYear(int year) {
         List<RegionData> result = rows.stream()
                 .filter(r -> r.year() == year)
@@ -25,14 +25,14 @@ public final class Dataset {
         return result;
     }
 
-    /** One region in one year, if it exists. */
+    /** one region in one year, if it exists. */
     public Optional<RegionData> find(String region, int year) {
         return rows.stream()
                 .filter(r -> r.year() == year && r.region().equals(region))
                 .findFirst();
     }
 
-    /** National total of a metric for one year. */
+    /** national total of a metric for one year. */
     public double total(int year, Metric metric) {
         return forYear(year).stream().mapToDouble(metric::of).sum();
     }

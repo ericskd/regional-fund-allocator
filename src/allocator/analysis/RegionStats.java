@@ -14,7 +14,7 @@ package allocator.analysis;
 public record RegionStats(String region, double baseline, double mean, double p05, double p95,
                           int baselineRank, double rankStability) {
 
-    /** Width of the 90% interval relative to the baseline, e.g. 0.12 = plus or minus about 6%. */
+    /** width of the 90% interval relative to the baseline, e.g. 0.12 = plus or minus about 6%. */
     public double relativeWidth() {
         return (p95 - p05) / baseline;
     }

@@ -1,8 +1,6 @@
 package allocator.analysis;
 
 /**
- * One row of a sensitivity sweep: the parameter value we tried and what it produced.
- *
  * @param parameter            the value being swept (e.g. blend weight or floor)
  * @param hhi                  concentration of the allocation (sum of squared weights)
  * @param effectiveRegions     1 / HHI

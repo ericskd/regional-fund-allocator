@@ -10,11 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Tests a strategy the way a quant tests a trading signal:
- * build the allocation using ONLY the formation year's data (no look-ahead),
- * then score it against what actually happened by the outcome year.
- */
 public final class Backtester {
 
     private final List<RegionData> formation;
@@ -34,7 +29,7 @@ public final class Backtester {
                             "No " + outcomeYear + " data for " + start.region()));
             double base = outcome.of(start);
             if (base <= 0) {
-                // Growth from a zero or negative base is meaningless, so refuse rather than mislead
+     
                 throw new IllegalArgumentException("Growth undefined: " + outcome.label()
                         + " is " + base + " for " + start.region() + " in " + formationYear);
             }
@@ -42,7 +37,7 @@ public final class Backtester {
         }
     }
 
-    /** The benchmark: growth earned by splitting the money equally across all regions. */
+
     public double benchmarkGrowth() {
         double sum = 0;
         for (double g : growth.values()) {

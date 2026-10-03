@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.DoubleFunction;
 
 /**
- * Runs the same type of strategy many times while changing one parameter,
+ * runs the same type of strategy many times while changing one parameter,
  * and records how concentration (risk side) and productivity (return side) respond.
  */
 public final class SensitivitySweep {

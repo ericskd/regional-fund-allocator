@@ -3,7 +3,7 @@ package allocator.model;
 import java.util.function.ToDoubleFunction;
 
 /**
- * The variables a strategy can allocate on. Each constant knows how to read
+ * the variables a strategy can allocate on. Each constant knows how to read
  * its own value from a RegionData, so strategies never hard-code a column.
  */
 public enum Metric {
@@ -20,7 +20,7 @@ public enum Metric {
         this.extractor = extractor;
     }
 
-    /** Reads this metric's value from one region, e.g. Metric.VALUE_ADDED.of(attica). */
+    /** reads this metric's value from one region, e.g. Metric.VALUE_ADDED.of(attica). */
     public double of(RegionData region) {
         return extractor.applyAsDouble(region);
     }

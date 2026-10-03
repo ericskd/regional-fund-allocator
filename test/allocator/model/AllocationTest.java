@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AllocationTest {
 
-    /** A strategy that returns whatever weights we hand it, to test Allocation on its own. */
     private static AllocationStrategy fixed(Map<String, Double> weights) {
         return new AllocationStrategy() {
             @Override
