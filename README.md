@@ -49,10 +49,9 @@ docs/frontier.png              chart above
 ```
 
 Design notes:
-- Every rule shares one interface. Each allocation rule implements AllocationStrategy. So the comparison, the sweeps, the Monte Carlo and the backtest all work with any rule, and adding a new rule doesn't mean touching any of them.
-- Bad output fails loudly. Allocation checks that the weights are never negative and always add up to 1. If a rule gets this wrong, the program stops with an error instead of printing numbers that look fine but aren't.
-- Results are reproducible. The Monte Carlo and the permutation tests use a fixed random seed, so you get exactly the same output every time you run it.
-- No external libraries. It's plain Java, version 17 or newer. JUnit 5 is only needed for the tests.
+- Allocation checks that the weights are never negative and always add up to 1. If a rule gets this wrong, the program stops with an error.
+- The Monte Carlo and the permutation tests use a fixed random seed, so you get exactly the same output every time you run it.
+- No external libraries, JUnit 5 is only needed for the tests.
 
 ## How to run
 
@@ -74,7 +73,7 @@ java -cp out allocator.Main
 
 ## Data
 
-Hellenic Statistical Authority (ELSTAT), Structural Business Statistics 2021 to 2023, as provided for the second stage of the 9th Panhellenic Statistics Competition. Monetary values are in thousand euros.
+Hellenic Statistical Authority (ELSTAT), Structural Business Statistics 2021 to 2023, as provided for the final stage of the 9th Panhellenic Statistics Competition. Monetary values are in thousand euros.
 
 ---
 *Errikos Skiadas*
