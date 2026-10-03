@@ -49,10 +49,10 @@ docs/frontier.png              chart above
 ```
 
 Design notes:
-- **Strategy pattern.** Every rule implements `AllocationStrategy`, so comparing, sweeping, simulating and backtesting all work on any rule without changes.
-- **Invariants enforced.** `Allocation` rejects weights that are negative or do not sum to 1, so a faulty rule fails loudly.
-- **Reproducible.** Monte Carlo and permutation tests use a fixed random seed.
-- **No dependencies.** Plain Java 17+; JUnit 5 only for tests.
+- Every rule shares one interface. Each allocation rule implements AllocationStrategy. So the comparison, the sweeps, the Monte Carlo and the backtest all work with any rule, and adding a new rule doesn't mean touching any of them.
+- Bad output fails loudly. Allocation checks that the weights are never negative and always add up to 1. If a rule gets this wrong, the program stops with an error instead of printing numbers that look fine but aren't.
+- Results are reproducible. The Monte Carlo and the permutation tests use a fixed random seed, so you get exactly the same output every time you run it.
+- No external libraries. It's plain Java, version 17 or newer. JUnit 5 is only needed for the tests.
 
 ## How to run
 
@@ -66,11 +66,11 @@ java -cp out allocator.Main
 
 ## Limitations and next steps
 
-- **Funding-weighted productivity is a proxy**, not a measured return on the money.
-- **The 5% error is an assumption.** ELSTAT's published sampling errors would be better, and employment (from administrative records) probably deserves a smaller error than value added.
-- **Normal noise can in principle go negative.** A lognormal perturbation would be cleaner.
-- **One backtest period, 13 regions.** More years or finer regional data (NUTS-3) are needed for any statistical power.
-- **Next:** a cap strategy (no region above X%) and an optimiser that maximises productivity subject to a concentration limit.
+- Productivity is standing in for return. Funding-weighted productivity tells you how productive the funded regions are. It doesn't measure what the money actually achieves once it gets there.
+- The 5% error is my own assumption. ELSTAT publishes sampling errors, and using those would be more accurate. Employment comes from administrative records, so it probably deserves a smaller error than value added.
+- The noise could technically go negative. At 5% error that never realistically happens, but a lognormal perturbation would rule it out completely.
+- The backtest is tiny. One period and 13 regions isn't enough for real statistical power. More years, or finer regional data at NUTS-3 level, would help.
+- What I'd build next: a cap strategy, where no region can get more than a set share, and then an optimiser that maximises productivity while keeping concentration below a limit.
 
 ## Data
 
