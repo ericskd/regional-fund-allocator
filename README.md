@@ -1,8 +1,8 @@
 # Regional Fund Allocator
 
-How should a ministry split €100m across Greece's 13 regions? This project treats that question the way a trader treats portfolio construction: compare allocation rules, measure how concentrated each one is, stress-test them against data error, and backtest them against what actually happened.
+How should a ministry split €100m across Greece's 13 regions? This project compares allocation rules, measures how concentrated each one is, stress-tests them against data error, and backtests them against what actually happened.
 
-It started as my team's answer in the final of the **Hellenic Statistics Olympiad (ELSTAT, 2026)**, where we placed 6th of 1,200. Our task was to propose a funding rule for the trade sector (NACE Sector Ζ, wholesale and retail trade). This is that model rebuilt in Java and taken much further.
+This is my answer for the final of the **Hellenic Statistics Olympiad 2026**. The task was to propose a funding rule for the trade sector (NACE Sector Ζ, wholesale and retail trade).   
 
 ![Productivity vs concentration](docs/frontier.png)
 
@@ -10,7 +10,7 @@ It started as my team's answer in the final of the **Hellenic Statistics Olympia
 
 | Stage | Question | Method |
 |---|---|---|
-| 1. Compare rules | Who gets what under each rule? | Value added share, employment share, 50/50 blend (our Olympiad model), blend with a minimum floor |
+| 1. Compare rules | Who gets what under each rule? | Value added share, employment share, 50/50 blend (my Olympiad model), blend with a minimum floor |
 | 2. Sensitivity sweep | What does diversification cost? | Sweep the blend weight and the floor; trace concentration (HHI) against funding-weighted productivity |
 | 3. Monte Carlo | Which results survive data error? | 10,000 runs with 5% normal noise on ELSTAT's estimates; 90% intervals and rank stability per region |
 | 4. Backtest | Would any rule have picked the regions that grew? | Rules built on 2021 data only, scored on 2021 to 2023 growth with Spearman rank IC and a permutation test |
@@ -77,4 +77,4 @@ java -cp out allocator.Main
 Hellenic Statistical Authority (ELSTAT), Structural Business Statistics 2021 to 2023, as provided for the second stage of the 9th Panhellenic Statistics Competition. Monetary values are in thousand euros.
 
 ---
-*Errikos Skiadas · BSc Mathematics, Operational Research, Statistics and Economics (MORSE), University of Warwick*
+*Errikos Skiadas*
