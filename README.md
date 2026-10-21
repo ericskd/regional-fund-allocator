@@ -1,8 +1,8 @@
 # Regional Fund Allocator
 
-How should a ministry split €100m across Greece's 13 regions? This project compares allocation rules, measures how concentrated each one is, stress-tests them against data error, and backtests them against what actually happened.
+How should a Finance ministry split €100m across Greece's 13 regions? This project aims to compare 5 different allocation rules, measures how concentrated each is, stress-tests them against potential data error, and backtests them against real-world events and data that took place.
 
-This is my answer for the final of the **Hellenic Statistics Olympiad 2026**. The task was to propose a funding rule for the trade sector (NACE Sector Ζ, wholesale and retail trade).   
+Answer for the final of the **Hellenic Statistics Olympiad 2026**. The task was to propose a funding rule for the trade sector (NACE Sector Ζ, wholesale and retail trade).   
 
 ![Productivity vs concentration](docs/frontier.png)
 
@@ -10,14 +10,24 @@ This is my answer for the final of the **Hellenic Statistics Olympiad 2026**. Th
 
 | Stage | Question | Method |
 |---|---|---|
-| 1. Compare rules | Who gets what under each rule? | Value added share, employment share, 50/50 blend (my Olympiad model), blend with a minimum floor |
-| 2. Sensitivity sweep | What does diversification cost? | Sweep the blend weight and the floor; trace concentration (HHI) against funding-weighted productivity |
-| 3. Monte Carlo | Which results survive data error? | 10,000 runs with 5% normal noise on ELSTAT's estimates; 90% intervals and rank stability per region |
-| 4. Backtest | Would any rule have picked the regions that grew? | Rules built on 2021 data only, scored on 2021 to 2023 growth with Spearman rank IC and a permutation test |
+| 1. Compare rules | What region receives what share of the budget under each rule? (value added share, employment share, 50/50 blend, blend with a minimum floor for each region, equal split) | Five allocation rules, compared on HHI and effective regions |
+| 2. Sensitivity sweep | What does diversification cost? | Identify concentration (HHI) against funding-weighted productivity |
+| 3. Monte Carlo | Which results remain robust when checking data error? | 10,000 runs with 5% assumed measurement error on ELSTAT's estimates; 90% intervals and rank stability per region |
+| 4. Backtest | Would any rule have picked the regions that grew in real-time? | Rules built on 2021 data only that were scored on 2021 to 2023 growth with Spearman rank IC as well as a permutation test |
+
+## The five allocation rules
+
+Each rule is a different way of turning the regional data into a share of the €100m budget. Every rule gives each region a weight between 0 and 1, and the weights always add up to 1, so a weight of 0.05 means €5m.
+
+1. **Value added share.** Each region gets the same percentage of the budget as its share of the sector's value added, the wealth the sector creates. A region producing 10% of the value added gets 10% of the money.
+2. **Employment share.** Each region gets the same percentage as its share of the sector's total employment.
+3. **50/50 blend (the Olympiad model).** Each region gets a weighted mix of rules 1 and 2. A weight α decides how much counts towards value added, and the rest (1 − α) counts towards employment. At α = 0.5 this is my team's original Olympiad answer, where each region gets the average of its two shares.
+4. **Blend with a minimum floor.** Every region is first guaranteed a minimum share (2% by default), and the rest of the budget is split using the 50/50 blend. With 13 regions, a 2% floor guarantees 26% of the budget, and the remaining 74% follows the blend. This moves money from the two largest regions to the eleven smaller ones.
+5. **Equal split.** Every region gets 1/13 of the budget (€7.69m each). It ignores the data completely, which makes it the benchmark that every other rule is compared against.
 
 ## Key findings
 
-**1. The Olympiad model is highly concentrated.** Attica receives €57.55m. The allocation behaves like only 2.7 equally funded regions (HHI 0.364).
+**1. The first rule is highly concentrated.** Attica receives €57.55m. The allocation behaves like only 2.7 equally funded regions (HHI 0.364).
 
 | Rule | Attica | North Aegean | HHI | Effective regions |
 |---|---|---|---|---|
@@ -25,6 +35,7 @@ This is my answer for the final of the **Hellenic Statistics Olympiad 2026**. Th
 | Employment share | €49.73m | €1.16m | 0.288 | 3.5 |
 | 50/50 blend (Olympiad) | €57.55m | €0.87m | 0.364 | 2.7 |
 | 50/50 blend + 2% floor | €44.58m | €2.65m | 0.234 | 4.3 |
+| Equal split | €7.69m | €7.69m | 0.077 | 13.0 |
 
 2. Spreading the money out results in losses in productivity. Adding a 2% floor to the Olympiad model takes it from 2.7 effective regions to 4.3. The price is funding-weighted productivity, which drops from €26.1k to €23.6k per worker, roughly 10% lower. I tested two ways of diversifying: changing the blend weight, and adding a floor. Where they overlap, they trace almost the same curve, with the difference being in range. The blend weight can't spread the money out any further than the employment-only split, while the floor keeps going until it's basically an equal split.
 
@@ -43,7 +54,7 @@ src/allocator/
 ├── strategy/                  AllocationStrategy (interface) and its implementations
 ├── analysis/                  SensitivitySweep, MonteCarloSimulator, Backtester, RankCorrelation
 └── io/                        CsvLoader, CsvWriter
-test/allocator/                24 JUnit 5 tests
+test/allocator/                25 JUnit 5 tests
 data/sector_z_2021_2023.csv    ELSTAT Structural Business Statistics, Sector Ζ, 13 regions, 2021 to 2023
 docs/frontier.png              chart above
 ```
